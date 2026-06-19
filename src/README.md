@@ -1,19 +1,32 @@
-# Student Scaffold
+﻿# Completed Day 17 Lab
 
-This `src/` folder is the student version of the lab.
+This `src/` folder contains the runnable implementation for the memory-systems lab.
 
-- It keeps the same high-level structure
-- The Python files are intentionally incomplete and contain pseudocode / TODOs
-- The benchmark structure should include: standard benchmark + long-context stress benchmark
-- The runtime should support these providers: `openai`, `custom`, `gemini`, `anthropic`, `ollama`, `openrouter`
+- `BaselineAgent` keeps short-term memory only inside one thread.
+- `AdvancedAgent` combines short-term memory, persistent `User.md`, and compact memory.
+- `model_provider.py` supports OpenAI, custom OpenAI-compatible endpoints, Gemini, Anthropic, Ollama, and OpenRouter.
+- Missing dependencies or API keys automatically use deterministic offline mode.
+- `benchmark.py` runs both the standard and long-context stress benchmarks.
 
-Suggested flow:
+Run tests from the repository root:
 
-1. Start with `config.py`
-2. Implement `memory_store.py`
-3. Finish `agent_baseline.py`
-4. Finish `agent_advanced.py`
-5. Implement `benchmark.py`
-6. Make `test_agents.py` pass
+```bash
+pytest -q src
+```
 
-Datasets are available at the repo root in `data/`.
+Run the benchmark:
+
+```bash
+python src/benchmark.py
+```
+
+Results are written to `state/benchmark_results.md` and `state/benchmark_results.json`.
+
+Bonus memory controls can be configured in `.env`:
+
+```dotenv
+MEMORY_CONFIDENCE_THRESHOLD=0.75
+MEMORY_DECAY_DAYS=90
+```
+
+Structured fact metadata is stored beside each profile as `User.meta.json`.
